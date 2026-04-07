@@ -1,170 +1,83 @@
-# 🎬 Movie Watchlist App
+# 🌌 NightWatch | Premium Movie Explorer
 
-## 📌 Project Overview
-
-The **Movie Watchlist App** is a modern web application that allows users to search for movies and maintain a personalized watchlist. The app provides a seamless experience where users can discover movies, add them to a watchlist, and manage their selections efficiently.
-
-This project focuses on frontend development concepts such as API integration, state management, and user interface design.
+NightWatch is a high-end, responsive movie discovery platform built with **React**, **Vite**, and **Tailwind CSS**. It provides users with real-time access to popular and trending movies globally, featuring a sleek glassmorphism design and advanced data manipulation capabilities.
 
 ---
 
-## 🎯 Purpose
+## 🎯 Project Milestones Completion
 
-The goal of this project is to:
+### 🌐 Milestone 2 - API Integration
+I have integrated the **TMDB (The Movie Database) API** to fetch real-time movie data.
+*   **Fetch Implementation**: Used the `fetch` API inside a dedicated service layer (`src/services/tmdb.js`) to decouple API logic from the UI.
+*   **Dynamic Data**: Successfully mapped raw API responses to clean JavaScript objects, ensuring only necessary properties (titles, ratings, high-res posters) are passed to components.
+*   **Loading States**: Designed a custom loader that provides visual feedback to the user while data is being streamed from the multiverse.
+*   **Responsive Excellence**: Leveraged Tailwind's utility-first approach to ensure a seamless experience across mobile, tablet, and desktop viewports.
 
-* Help users easily search for movies
-* Allow users to create and manage a watchlist
-* Provide a clean and interactive UI experience
-* Practice real-world frontend development skills
-
----
-
-## 🌐 APIs Used
-
-### 1. OMDb API (Primary)
-
-* Used for fetching movie data such as:
-
-  * Title
-  * Year
-  * Poster
-  * IMDb ID
-* Example:
-
-  ```
-  https://www.omdbapi.com/?apikey=YOUR_API_KEY&s=batman
-  ```
-
-### 2. (Optional Enhancements)
-
-* **TMDB API** – for better images and detailed movie data
-* **Watchmode API** – for streaming availability
+### ⚙️ Milestone 3 - Core Features & Interactivity
+Enhanced the application with professional-grade features for discovering and organizing content.
+*   **Advanced Searching**: Implemented a real-time keyword search bar using the `.filter()` higher-order function to scan movie titles across the dataset.
+*   **Smart Filtering**: Developed a genre-based filtering system using `.filter()` to narrow down movies by specific categories (e.g., Action, Animation).
+*   **Precision Sorting**: Integrated sorting logic using the `.sort()` HOF, allowing users to arrange data by **Highest Rating**, **Release Date**, or **Alphabetical Order**.
+*   **Premium Theme Toggle**: Created a theme switcher that transitions between a deep indigo "NightWatch" dark mode and a clean, accessible light mode.
+*   **Interactivity**: Added interactive elements like hover scale effects and a functional "View Details" action on every movie card.
 
 ---
 
-## 🚀 Features
+## 🧠 Real-Time Web Search & Data Handling
 
-### ✅ Core Features
+### 1. The Service Layer
+I handle API communication in `tmdb.js`. This centralizes the `fetch` logic, endpoint management, and error handling. It ensures that the application remains robust even if the API structure changes.
 
-* 🔍 **Live Movie Search**
-
-  * Fetch results dynamically as the user types
-* ⭐ **Add/Remove from Watchlist**
-
-  * Toggle button on each movie card
-* 📌 **Persistent Watchlist**
-
-  * Data stored in localStorage
-* 🧊 **Empty States**
-
-  * Message when no search results are found
-  * Message when watchlist is empty
-* 🎨 **Modern UI**
-
-  * Dark theme inspired by streaming platforms
-
-### 🎲 Optional Features
-
-* Random Movie Picker ("Movie Night" feature)
-* Movie details modal
-* Pagination or infinite scrolling
-* Search debounce optimization
-
----
-
-## 🛠️ Technologies Used
-
-### Frontend
-
-* **React.js** – UI development
-* **Vite** – Fast build tool
-* **JavaScript (ES6+)**
-
-### Styling
-
-* **Tailwind CSS** (or CSS)
-
-### API Handling
-
-* **Axios** (or Fetch API)
-
-### State Management
-
-* React Hooks (`useState`, `useEffect`)
-
-### Storage
-
-* **localStorage** (for watchlist persistence)
-
----
-
-## 📂 Project Structure
-
-```
-movie-watchlist/
-│── src/
-│   ├── components/
-│   │   ├── SearchBar.jsx
-│   │   ├── MovieCard.jsx
-│   │   ├── MovieList.jsx
-│   │   └── WatchlistSidebar.jsx
-│   ├── App.jsx
-│   └── main.jsx
-│
-│── public/
-│── package.json
-│── README.md
+```javascript
+// Example of fetching movies with error handling
+export const fetchPopularMovies = async () => {
+    const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
+    if (!response.ok) throw new Error('API Sync Failed');
+    const data = await response.json();
+    return data.results.map(movie => ({ ... })); // Transform for UI
+};
 ```
 
----
+### 2. State & Higher-Order Functions (HOFs)
+To ensure high performance and clean code, **I do not use traditional for/while loops**. Instead, I use React's `useMemo` combined with Array HOFs to derive the visible movie list based on user input.
 
+*   **Searching**: `movies.filter(m => m.title.includes(searchTerm))`
+*   **Filtering**: `movies.filter(m => m.genreIds.includes(selectedGenre))`
+*   **Sorting**: `result.sort((a, b) => b.rating - a.rating)`
+*   **Rendering**: `processedMovies.map(movie => <MovieCard />)`
 
-
-### 2. Install Dependencies
-
-```
-npm install
-```
-
-
-
-### 4. Run the Project
-
-```
-npm run dev
-```
-
-## 🧠 How It Works (Brief Workflow)
-
-1. User enters a movie name in the search bar
-2. API request is sent to OMDb
-3. Results are displayed as movie cards
-4. User can add/remove movies from the watchlist
-5. Watchlist is stored in localStorage
-6. UI updates automatically based on state
+This approach ensures that every time the user types a letter or changes a filter, the UI updates instantly with the most relevant data.
 
 ---
 
-## ⚠️ Known Limitations
-
-* Limited data from OMDb API (basic info only)
-* No backend or user authentication
-* API rate limits may apply
+## 🛠️ Tech Stack & Styling
+*   **UI Core**: React.js 18+ (Hooks: `useState`, `useEffect`, `useMemo`)
+*   **Build Tool**: Vite (for lightning-fast HMR)
+*   **Styling**: Tailwind CSS + Custom Vanilla CSS Utilities
+*   **Design Tokens**:
+    *   **Glassmorphism**: Backdrop blur (12px-16px) with translucent borders.
+    *   **Typography**: Google Font **Inter** for professional readability.
+    *   **Color Palette**: Slate 900 to Indigo 500 gradient transitions.
 
 ---
 
-## 🔮 Future Improvements
+## 🚀 Getting Started
 
-* Add authentication (login/signup)
-* Integrate TMDB for richer data
-* Add recommendations system
-* Improve UI animations and transitions
+1.  **Clone the repository**
+2.  **Install dependencies**: `npm install`
+3.  **Launch Dev Server**: `npm run dev`
+4.  **API Key**: The application is pre-configured with a valid TMDB key for demonstration.
+
+---
+
+## 📅 Roadmap
+- [x] Milestone 2: API Integration & Dynamic UI
+- [x] Milestone 3: Search, Filter, Sort & Theme Toggle
+- [ ] Milestone 4: Persistence (Watchlist & LocalStorage)
+- [ ] Milestone 5: Detailed Movie Modals
 
 ---
 
 ## 🙌 Acknowledgements
-
-* OMDb API for movie data
-* Inspiration from Netflix / Disney+ UI design
-
----
+*   **TMDB API** for the extensive movie database.
+*   **Google Deepmind** for the agentic design inspiration.
