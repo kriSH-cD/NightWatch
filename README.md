@@ -65,8 +65,21 @@ This approach ensures that every time the user types a letter or changes a filte
 
 1.  **Clone the repository**
 2.  **Install dependencies**: `npm install`
-3.  **Launch Dev Server**: `npm run dev`
-4.  **API Key**: The application is pre-configured with a valid TMDB key for demonstration.
+3.  **Environment Variables**: Create a `.env` file in the root directory and add your TMDB API key:
+    ```env
+    VITE_TMDB_API_KEY=your_api_key_here
+    ```
+4.  **Launch Dev Server**: `npm run dev`
+
+---
+
+## 🌩️ Deployment (Vercel)
+
+This project is configured for seamless deployment on Vercel:
+1. Import the repository into your Vercel Dashboard.
+2. The framework preset should default to **Vite** (`npm run build` & `dist`).
+3. Add the `VITE_TMDB_API_KEY` into your Vercel Environment Variables.
+4. Click **Deploy**.
 
 ---
 
